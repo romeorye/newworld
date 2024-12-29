@@ -22,12 +22,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lghausys.eam.EAMUtil;
-import com.lghausys.eam.domain.LeftMenuVO;
-import com.lghausys.eam.domain.RoleUserInfoVO;
-import com.lghausys.eam.domain.UserVO;
-import com.lghausys.eam.exception.EAMException;
-
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.util.FormatHelper;
@@ -225,6 +219,7 @@ public class IrisLoginController {
             resultData = loginService.retrieveUserDetail(loginUser);
 
             if(!resultData.isEmpty()) {
+                /*[20241228]주석처리 
                 //[EAM추가] - 사용자 시스템 권한 확인 Start ===========================================================
                 // ※  N 인경우 권한없음 오류 메시지 처리 / D 인경우 장기미사용 접근불가 오류 메시지 및 해제신청 가이드 처리
                 boolean errFlag = false;
@@ -370,12 +365,12 @@ public class IrisLoginController {
                     //return "redirect:/common/login/itgLoginForm.do";
                     /////return "web/system/main";
                 }
-                //[EAM추가] - EAM 관리 전체 메뉴 URL 조회 End ===========================================================
+                //[EAM추가] - EAM 관리 전체 메뉴 URL 조회 End ===========================================================*/
                 
                 lsession = new HashMap();
   
                 lsession.put("_userId"   , NullUtil.nvl(resultData.get("sa_user"), ""));  
-                lsession.put("_userSabun"   , userSabun);
+                lsession.put("_userSabun"   , NullUtil.nvl(resultData.get("sa_sabun_new"), ""));
                 lsession.put("_userGubun"   , NullUtil.nvl(resultData.get("sa_gubun"), ""));
                 lsession.put("_userNm"   , NullUtil.nvl(resultData.get("sa_name"), ""));
                 lsession.put("_userDept"   , NullUtil.nvl(resultData.get("sa_dept"), ""));
@@ -388,18 +383,19 @@ public class IrisLoginController {
                 lsession.put("_teamDept"   , NullUtil.nvl(resultData.get("team_dept"), ""));
                 lsession.put("_roleId",      "WORK_IRI_T01"); //roleIds.substring(1));
                 lsession.put("_loginTime",  FormatHelper.curTime());  //로그인 시간
-                lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수                                
+                lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수
                 lsession.put("sessionID",  session.getId());
                 
                 LOGGER.debug("[lsession]", lsession);
                 
                 //세션 시간 설정
-                session.setAttribute("irisSession", lsession);     
+                session.setAttribute("irisSession", lsession);
                                 
-                //[EAM추가] EAM top리스트, 관리 전체 메뉴 URL 세션 추가                
+                /*[20241228]주석처리
+                //[EAM추가] EAM top리스트, 관리 전체 메뉴 URL 세션 추가
                 session.setAttribute("topMenuList", topMenuList);
                 session.setAttribute("menuList", menuList);
-                session.setAttribute("eamMenuAcceptList", eamMenuAcceptList);
+                session.setAttribute("eamMenuAcceptList", eamMenuAcceptList);*/
                
                 //로그인 유저관리 클래스 호출.
                 //LOGGER.debug("*****세션 생성 시작");

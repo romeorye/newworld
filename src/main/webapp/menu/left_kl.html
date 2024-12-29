@@ -419,14 +419,15 @@ $(function(){
 
 
 
+
 	
 		
-			moveMenu("PJ", "/prj/tss/gen/genTssList.do", "IRIPJ0601");
+			/* moveMenu("AN", "/prj/tss/gen/genTssList.do", "IRIAN0201");
 
-			setMenuView('IRIPJ0600');
+			setMenuView('IRIAN0200');
 
     		$('.accordion > dd > ul > li').removeClass('on');
-			$('#lvl3_IRIPJ0601').addClass('on');
+			$('#lvl3_IRIAN0201').addClass('on'); */
 		
 		
 		
@@ -435,17 +436,6 @@ $(function(){
 
 
 });
-
-
-function goHelpDesk(){
-	var popUrl =  'https://itms.lgstation.com/hausys';
-    var popupOption = "width=1200, height=700, top=200, left=400";
-
-    alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
-    popUrl = popUrl;
-    window.open(popUrl,"",popupOption);
-}
-
 
 function moveMenu(vMenuId, scrnUrl, menuId){
 	if(scrnUrl == "")  return;
@@ -526,274 +516,173 @@ function setMenuView(menuId) {
 	<div class="lnbArea">
 		<div class="inner">
 			<div class="lnbTitle">
-				<h2>Project</h2>
+				<h2>Knowledge</h2>
 				<a href="#none" class="accordionBtn"></a>
 			</div>
 			<div class="lnbMenuArea">
 				<dl class="accordion lnbMenu">
 					
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-					
-					<dt id="lvl2_IRIPJ0100">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0100')">연구팀(Project)</a>  <!-- [EAM변경] -->
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0100">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0100')">공지/게시판</a>  <!-- [EAM변경] -->
 					</dt>
-				
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0101"><a href="javascript:moveMenu('PJ', '/prj/rsst/mst/retrievePrjRsstMstInfoList.do', 'IRIPJ0101')">현황</a></li>  <!-- [EAM변경] -->
 					
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0102"><a href="javascript:moveMenu('PJ', '/prj/rsst/retrievePrjClsList.do', 'IRIPJ0102')">월마감</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-					
-						</ul>
-						</dd>
-					
-					<dt id="lvl2_IRIPJ0600">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0600')">GRS</a>  <!-- [EAM변경] -->
-					</dt>
-				
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0601"><a href="javascript:moveMenu('PJ', '/prj/grs//listGrsMngInfo.do', 'IRIPJ0601')">GRS관리</a></li>  <!-- [EAM변경] -->
-					
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-					
-						</ul>
-						</dd>
-					
-					<dt id="lvl2_IRIPJ0200">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0200')">연구과제</a>  <!-- [EAM변경] -->
-					</dt>
-				
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0201"><a href="javascript:moveMenu('PJ', '/prj/tss/gen/genTssList.do', 'IRIPJ0201')">연구팀과제</a></li>  <!-- [EAM변경] -->
-					
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0202"><a href="javascript:moveMenu('PJ', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202')">대외협력과제</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0203"><a href="javascript:moveMenu('PJ', '/prj/tss/nat/natTssList.do', 'IRIPJ0203')">국책과제</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0207"><a href="javascript:moveMenu('PJ', '/prj/tss/tctm/tctmTssList.do', 'IRIPJ0207')">기술팀과제</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0204"><a href="javascript:moveMenu('PJ', '/prj/tss/itg/tssItgRdcsList.do', 'IRIPJ0204')">결재현황</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-					
-						</ul>
-						</dd>
-					
-					<dt id="lvl2_IRIPJ0300">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0300')">제조혁신</a>  <!-- [EAM변경] -->
-					</dt>
-				
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0301"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInnoMonCls/mkInnoTssMonClsList.do', 'IRIPJ0301')">제조혁신월마감</a></li>  <!-- [EAM변경] -->
-					
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0302"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInno/mkInnoTssList.do', 'IRIPJ0302')">제조혁신과제</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0303"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInnoStat/mkInnoTssPgsList.do', 'IRIPJ0303')">과제진행현황</a></li> <!-- [EAM변경] -->
-					
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-					
-						</ul>
-						</dd>
-					
-					<dt id="lvl2_IRIPJ0400">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0400')">M/M관리</a>  <!-- [EAM변경] -->
-					</dt>
-				
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0401"><a href="javascript:moveMenu('PJ', '/prj/mm/retrieveMmInInfo.do', 'IRIPJ0401')">M/M입력</a></li>  <!-- [EAM변경] -->
-					
-				
-				
-				
-				
-			
-							<!-- [EAM변경] level 하나씩 낮춤-->
-				
-				
-				
-				
-							<li id="lvl3_IRIPJ0402"><a href="javascript:moveMenu('PJ', '/prj/mm/retrieveMmClsInfo.do', 'IRIPJ0402')">M/M마감</a></li> <!-- [EAM변경] -->
-					
-				
-					
-						</ul>
-						</dd>
-					
-					<dt id="lvl2_IRIPJ0500">
-					 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0500')">관리</a>  <!-- [EAM변경] -->
-					</dt>
-							<!-- [EAM변경] level 하나씩 낮춤-->
-					<dd>
-						<ul class="submenu">
-							<li id="lvl3_IRIPJ0501"><a href="javascript:moveMenu('PJ', '/prj/mgmt/wbsStd/wbsStdList.do', 'IRIPJ0501')">표준WBS관리</a></li>  <!-- [EAM변경] -->
-							
-							<!-- [EAM변경] level 하나씩 낮춤-->
-							<li id="lvl3_IRIPJ0502"><a href="javascript:moveMenu('PJ', '/prj/mgmt/grst/grsTempList.do', 'IRIPJ0502')">GRS템플릿관리</a></li> <!-- [EAM변경] -->
-							
-							<!-- [EAM변경] level 하나씩 낮춤-->
-							<li id="lvl3_IRIPJ0503"><a href="javascript:moveMenu('PJ', '/prj/mgmt/trwiBudg/trwiBudgList.do', 'IRIPJ0503')">투입예산관리</a></li> <!-- [EAM변경] -->
-							
-							<!-- [EAM변경] level 하나씩 낮춤-->
-							<li id="lvl3_IRIPJ0504"><a href="javascript:moveMenu('PJ', '/system/dept/upperDeptCdAList.do', 'IRIPJ0504')">조직코드약어관리</a></li> <!-- [EAM변경] -->
-							
-							<!-- [EAM변경] level 하나씩 낮춤-->
-							<li id="lvl3_IRIPJ0505"><a href="javascript:moveMenu('PJ', '/prj/mgmt/smryCl/smryClList.do', 'IRIPJ0505')">일반과제개요/분류관리</a></li> <!-- [EAM변경] -->
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0101"><a href="javascript:moveMenu('KL', '/knld/pub/retrievePubNoticeList.do', 'IRIKL0101')">공지사항</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0102"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveTechnologyList.do', 'IRIKL0102')">시장/기술정보</a></li> <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
 
-							<!-- [EAM변경] level 하나씩 낮춤-->
-							<li id="lvl3_IRIPJ0506"><a href="javascript:moveMenu('PJ', '/stat/mgmt/comCodeList.do', 'IRIPJ0506')">공통코드관리</a></li> <!-- [EAM변경] -->
+								<li id="lvl3_IRIKL0103"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveEduList.do', 'IRIKL0103')">교육/세미나</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0104"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveConferenceList.do', 'IRIKL0104')">학회/컨퍼런스</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0105"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveShowList.do', 'IRIKL0105')">전시회</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0106"><a href="javascript:moveMenu('KL', '/knld/pub/retrievePatentList.do', 'IRIKL0106')">특허</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0107"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveModalityList.do', 'IRIKL0107')">표준양식</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0108"><a href="javascript:moveMenu('KL', '/knld/pub/retrievePatentInfoList.do', 'IRIKL0108')">특허정보 리스트</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0109"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveSaftyList.do', 'IRIKL0109')">안전/환경/보건</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0110"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveManualList.do', 'IRIKL0110')">규정/업무Manual</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0111"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveOutsideSpeciaList.do', 'IRIKL0111')">사외전문가</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0112"><a href="javascript:moveMenu('KL', '/knld/pub/retrieveLabSchedule.do', 'IRIKL0112')">연구소주요일정</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
 
-						</ul>
-					</dd>
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+					
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0200">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0200')">Q&A</a>  <!-- [EAM변경] -->
+					</dt>
+					
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0201"><a href="javascript:moveMenu('KL', '/knld/qna/retrieveGroupBoardList.do', 'IRIKL0201')">Group R&D</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0202"><a href="javascript:moveMenu('KL', '/knld/qna/retrieveGeneralQnaList.do', 'IRIKL0202')">일반Q&A</a></li> <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0300">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0300')">연구산출물</a>  <!-- [EAM변경] -->
+					</dt>
+					
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0301"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=molecule', 'IRIKL0301')">고분자재료Lab</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0302"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=adhesion', 'IRIKL0302')">점착기술Lab</a></li> <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+
+								<li id="lvl3_IRIKL0303"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=inorganic', 'IRIKL0303')">무기소재Lab</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0304"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=coating', 'IRIKL0304')">코팅기술Lab</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0305"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=common', 'IRIKL0305')">연구소.공통</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0306"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=industry', 'IRIKL0306')">LG화학 연구소</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0307"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=techCenter', 'IRIKL0307')">LG화학 테크센터</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0308"><a href="javascript:moveMenu('KL', '/knld/rsst/retrieveProductList.do?affrClId=pms', 'IRIKL0308')">LG하우시스 연구소</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+					
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0400">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0400')">관리</a>  <!-- [EAM변경] -->
+					</dt>
+					
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0401"><a href="javascript:moveMenu('KL', '/knld/qna/retrieveGroupBoardList.do', 'IRIKL0401')">조회요청</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0500">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0500')">임차주택</a>  <!-- [EAM변경] -->
+					</dt>
+					
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0501"><a href="javascript:moveMenu('KL', '/knld/leasHous/retrieveLeasHousList.do', 'IRIKL0501')">임차주택신청</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+								<li id="lvl3_IRIKL0502"><a href="javascript:moveMenu('KL', '/knld/leasHousMgmt/retrieveLeasHousMgmtList.do', 'IRIKL0502')">임차주택관리</a></li> <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+
+					<!-- 시작 --------------------------- -->
+					<!-- [EAM변경] level 하나씩 낮춤-->
+					<dt id="lvl2_IRIKL0600">
+					 <a href="javascript:moveMenu('KL', '', 'IRIKL0600')">전자도서관 규격</a>  <!-- [EAM변경] -->
+					</dt>
+					
+						<!-- [EAM변경] level 하나씩 낮춤-->
+						<dd>
+							<ul class="submenu">
+								<li id="lvl3_IRIKL0601"><a href="javascript:moveMenu('KL', '/knld/nrm/nrmList.do', 'IRIKL0601')">소장규격검색</a></li>  <!-- [EAM변경] -->
+								<!-- [EAM변경] level 하나씩 낮춤-->
+								
+							</ul>
+						</dd>
+					<!-- 끝 --------------------------- -->
+
 					
 				</dl>
-				</div>
-				<div class="left_phone""><img src="/iris/resource/web/images/common/sub_left_m_contact.png" style="cursor: pointer;" onclick="goHelpDesk()" /></div>
 			</div>
+			<div class="left_phone""><img src="/iris/resource/web/images/common/sub_left_m_contact.png" style="cursor: pointer;" onclick="goHelpDesk()" /></div>
+		</div>
 		<div class="split_l" ><img src="/iris/resource/web/images/common/lnb_off.png" /></div>
 	</div><!-- //lnbArea -->
 
